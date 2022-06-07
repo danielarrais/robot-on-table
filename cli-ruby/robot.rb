@@ -62,6 +62,15 @@ class Robot
         end
     end
     
+    def moveToWest
+        currentXPosition = @currentPosition[0]
+        maxXMovimentation = @maxAreaToMove[0]
+        newXPosition = currentXPosition - 1
+
+        if (newXPosition >= 0)
+            @currentPosition[0] = newXPosition
+        end
+    end
     
-    private :moveToNorth, :moveToEast, :moveToSouth
+    private :moveToNorth, :moveToEast, :moveToSouth, :moveToWest
 end
