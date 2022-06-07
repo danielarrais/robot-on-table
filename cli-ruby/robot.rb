@@ -33,6 +33,15 @@ class Robot
         puts "Rotated to #{@facing}"
     end
 
+    def move
+        moveToNorth() if (facing == :north)
+        moveToEast() if (facing == :east)
+        moveToSouth() if (facing == :south)
+        moveToWest() if (facing == :west)
+        
+        puts "Moved to [#{@currentPosition[0]},#{@currentPosition[1]}]"
+    end
+
     def moveToNorth
         currentYPosition = @currentPosition[1]
         newYPosition = currentYPosition - 1
