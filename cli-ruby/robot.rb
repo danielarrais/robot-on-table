@@ -13,14 +13,14 @@ ANTICLOCKWISE_FLOW = {
 }
 
 class Robot
-    attr_reader :currentPosition;
-    attr_reader :maxAreaToMove;
+    attr_reader :current_position;
+    attr_reader :max_area_to_move;
     attr_reader :facing;
     
     def initialize(attributes)
-        @currentPosition = attributes[:initialPosition]
+        @current_position = attributes[:initial_position]
         @facing = attributes[:facing]
-        @maxAreaToMove = attributes[:maxAreaToMove]
+        @max_area_to_move = attributes[:max_area_to_move]
     end
 
     def left()
@@ -34,52 +34,56 @@ class Robot
     end
 
     def move
-        moveToNorth() if (facing == :north)
-        moveToEast() if (facing == :east)
-        moveToSouth() if (facing == :south)
-        moveToWest() if (facing == :west)
+        move_to_north() if (facing == :north)
+        move_to_east() if (facing == :east)
+        move_to_south() if (facing == :south)
+        move_to_west() if (facing == :west)
         
-        puts "Moved to [#{@currentPosition[0]},#{@currentPosition[1]}]"
+        puts "Moved to [#{@current_position[0]},#{@current_position[1]}]"
     end
 
-    def moveToNorth
-        currentYPosition = @currentPosition[1]
-        newYPosition = currentYPosition - 1
+    def move_to_north
+        current_y_position = @current_position[1]
+        new_y_position = current_y_position - 1
 
-        if(newYPosition >= 0)
-            @currentPosition[1] = newYPosition
+        if(new_y_position >= 0)
+            @current_position[1] = new_y_position
         end
     end
 
-    def moveToEast
-        currentXPosition = @currentPosition[0]
-        maxXMovimentation = @maxAreaToMove[0]
-        newXPosition = currentXPosition + 1
+    def move_to_east
+        current_x_position = @current_position[0]
+        max_x_moviment = @max_area_to_move[0]
+        new_x_position = current_x_position + 1
 
-        if (newXPosition <= maxXMovimentation)
-            @currentPosition[0] = newXPosition
+        if (new_x_position <= max_x_moviment)
+            @current_position[0] = new_x_position
         end
+    end
+
+    def move_to_south
+        current_y_position = @current_position[1]
+        max_y_moviment = @max_area_to_move[1]
+        new_y_position = current_y_position + 1
+
+        if(new_y_position <= max_y_moviment)
+            @current_position[1] = new_y_position
+        end
+    end
+
+    def move_to_west
+        current_x_position = @current_position[0]
+        max_x_moviment = @max_area_to_move[0]
+        new_x_position = current_x_position - 1
+
+        if (new_x_position >= 0)
+            @current_position[0] = new_x_position
+        end
+    end
+
+    def current_position_report
+        puts "#{@current_position[0]},#{@current_position[1]},#{@facing.upcase}"
     end
     
-    def moveToSouth
-        currentYPosition = @currentPosition[1]
-        maxYMovimentation = @maxAreaToMove[1]
-        newYPosition = currentYPosition + 1
-
-        if(newYPosition <= maxYMovimentation)
-            @currentPosition[1] = newYPosition
-        end
-    end
-    
-    def moveToWest
-        currentXPosition = @currentPosition[0]
-        maxXMovimentation = @maxAreaToMove[0]
-        newXPosition = currentXPosition - 1
-
-        if (newXPosition >= 0)
-            @currentPosition[0] = newXPosition
-        end
-    end
-    
-    private :moveToNorth, :moveToEast, :moveToSouth, :moveToWest
+    private :move_to_north, :move_to_east, :move_to_south, :move_to_west
 end
