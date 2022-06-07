@@ -32,4 +32,16 @@ class Robot
         @facing = ANTICLOCKWISE_FLOW[@facing]
         puts "Rotated to #{@facing}"
     end
+
+    def moveToNorth
+        currentYPosition = @currentPosition[1]
+        newYPosition = currentYPosition - 1
+
+        if(newYPosition >= 0)
+            @currentPosition[1] = newYPosition
+        end
+    end
+
+    
+    private :moveToNorth
 end
