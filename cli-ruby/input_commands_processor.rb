@@ -1,7 +1,8 @@
 PLACE_COMMAND_NAME = 'PLACE'
 PLACE_COMMAND_REGEX = /(\bplace\b) \d+,\d+,((\bnorth\b)|(\beast\b)|(\bsouth\b)|(\bwest\b))+/
+OTHER_COMMANDS_REGEX = /(\bmove\b)|(\bleft\b)|(\bright\b)|(\breport\b)/
 
-class InputArgProcessor
+class InputCommandsProcessor
   def initialize(input)
     @input = input
   end
@@ -10,24 +11,40 @@ class InputArgProcessor
     return [] if @input.nil? || @input.empty?
 
     commands_str = @input.split('\n')
-    valid_commands_str = filter_valids_commands(commands_str)
+    valid_commands_str = validate_commands(commands_str)
 
     build_commands(valid_commands_str)
   end
 
   private
 
-  def filter_valids_commands(commands)
+  def validate_commands(commands)
     return [] if (commands.nil? || commands.empty?)
 
-    valid_commands = commands.select { |command| !command.empty? }
-    place_command_index = valid_commands.index do |command|
-      command.downcase.match?(PLACE_COMMAND_REGEX)
+    executable_commands = filter_commands_before_place(commands)
+    executable_commands.select { |command| valid_command?(command) }
+  end
+
+  def filter_commands_before_place(commands)
+    runnable_commands = []
+
+    commands.each do |command|
+      if !runnable_commands.empty? || command.upcase.include?(PLACE_COMMAND_NAME)
+        runnable_commands.push(command)
+      end
     end
 
-    return [] if (place_command_index.nil?)
+    runnable_commands
+  end
 
-    commands[place_command_index, commands.length]
+  def valid_command?(command)
+    return false if command.nil? || command.empty?
+
+    if command.upcase.include?(PLACE_COMMAND_NAME)
+      command.downcase.match?(PLACE_COMMAND_REGEX)
+    else
+      command.downcase.match?(OTHER_COMMANDS_REGEX)
+    end
   end
 
   def build_commands(valid_commands_str)
