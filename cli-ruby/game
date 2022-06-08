@@ -1,0 +1,6 @@
+#!/home/daniel/.asdf/shims/ruby
+
+require_relative "lib/table_game"
+
+commands = ARGV[0]
+TableGame.new.execute(commands)
