@@ -14,20 +14,20 @@ class TableGame
     runnable_commands = InputCommandsProcessor.new(commands).process
     place_command = commands.shift
 
-    if valid_place_command?(place_command)
-      place_robot(place_command[:params])
+    return unless valid_place_command?(place_command)
 
-      runnable_commands.each do |command|
-        command_name = command[:name]
-        @robot_controls[command_name].call
-      end
+    place_robot(place_command[:params])
+
+    runnable_commands.each do |command|
+      command_name = command[:name]
+      @robot_controls[command_name].call
     end
   end
 
   private
 
   def valid_place_command?(command)
-    params = command[:params];
+    params = command[:params]
 
     if params[:x] <= @table_size[0] && params[:y] <= @table_size[1]
       return true
