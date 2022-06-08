@@ -8,11 +8,11 @@ class TableGame
     map_robot_controls
   end
 
-  def execute(commands = [])
-    return if commands.empty?
+  def execute(commands)
+    return if commands.nil? || commands.empty?
 
     runnable_commands = InputCommandsProcessor.new(commands).process
-    place_command = commands.shift
+    place_command = runnable_commands.shift
 
     return unless valid_place_command?(place_command)
 
