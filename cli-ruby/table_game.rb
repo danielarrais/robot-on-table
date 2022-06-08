@@ -1,4 +1,5 @@
 require_relative "robot"
+require_relative "input_commands_processor"
 
 class TableGame
   def initialize(table_size = [5, 5])
@@ -10,16 +11,30 @@ class TableGame
   def execute(commands = [])
     return if commands.empty?
 
+    runnable_commands = InputCommandsProcessor.new(commands).process
     place_command = commands.shift
-    place_robot(place_command[:params])
 
-    commands.each do |command|
-      command_name = command[:name]
-      @robot_controls[command_name].call
+    if valid_place_command?(place_command)
+      place_robot(place_command[:params])
+
+      runnable_commands.each do |command|
+        command_name = command[:name]
+        @robot_controls[command_name].call
+      end
     end
   end
 
   private
+
+  def valid_place_command?(command)
+    params = command[:params];
+
+    if params[:x] <= @table_size[0] && params[:y] <= @table_size[1]
+      return true
+    end
+
+    false
+  end
 
   def place_robot(params)
     @robot = Robot.new(
