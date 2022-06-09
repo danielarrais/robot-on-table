@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Robot on table</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script type="module" src="index.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        td {
+            height: 100px;
+            width: 100px;
+            text-align: center;
+        }
+
+        textarea {
+            height: 250px;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+<form>
+    <label for="commandInput">Commands</label><br>
+    <textarea id="commandInput"></textarea><br>
+    <button type="button" onclick="runGame()">Run Commands</button><br>
+</form>
+
+<table>
+    <tbody id="bodyTable"></tbody>
+</table>
+
+</body>
+</html>
