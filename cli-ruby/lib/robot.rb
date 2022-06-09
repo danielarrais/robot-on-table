@@ -24,18 +24,18 @@ class Robot
   end
 
   def left
-    @facing = CLOCKWISE_FLOW[@facing]
-  end
-
-  def right
     @facing = ANTICLOCKWISE_FLOW[@facing]
   end
 
+  def right
+    @facing = CLOCKWISE_FLOW[@facing]
+  end
+
   def move
-    move_to_north if (facing == :north)
-    move_to_east if (facing == :east)
-    move_to_south if (facing == :south)
-    move_to_west if (facing == :west)
+    move_to_north if (@facing == :north)
+    move_to_east if (@facing == :east)
+    move_to_south if (@facing == :south)
+    move_to_west if (@facing == :west)
   end
 
   def move_to_north
@@ -49,7 +49,7 @@ class Robot
 
   def move_to_east
     current_x_position = @current_position[0]
-    max_x_moviment = @max_area_to_move[0]
+    max_x_moviment = @max_area_to_move[0] - 1
     new_x_position = current_x_position + 1
 
     if new_x_position <= max_x_moviment
@@ -59,7 +59,7 @@ class Robot
 
   def move_to_south
     current_y_position = @current_position[1]
-    max_y_moviment = @max_area_to_move[1]
+    max_y_moviment = @max_area_to_move[1] - 1
     new_y_position = current_y_position + 1
 
     if new_y_position <= max_y_moviment
@@ -77,7 +77,7 @@ class Robot
   end
 
   def current_position_report
-    puts "#{@current_position[0]},#{@current_position[1]},#{@facing.upcase}"
+    print "#{@current_position[0]},#{@current_position[1]},#{@facing.upcase}"
   end
 
   private :move_to_north, :move_to_east, :move_to_south, :move_to_west
