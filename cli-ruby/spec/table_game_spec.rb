@@ -83,15 +83,52 @@ describe TableGame do
         PLACE 4,4,NORTH
         MOVE
         PLACE 2,2,NORTH
-        PLACE 2,2,NORTH3
+        PLACE 2,10,NORTH
         RIGHT
         REPORT
-        PLACE 2,2,NORTH3
+        PLACE 8,2,NORTH
       HEREDOC
 
       expect do
         @table_game.execute(commands)
       end.to output('2,2,EAST').to_stdout
+    end
+
+    it "ignore firsts invalids PLACE commands" do
+      commands = <<~HEREDOC
+        PLACE 32,10,NORTH
+        PLACE 2,10,NORTH
+        PLACE 4,4,NORTH
+        MOVE
+        PLACE 2,2,NORTH
+        PLACE 2,10,NORTH
+        RIGHT
+        REPORT
+        PLACE 8,2,NORTH
+      HEREDOC
+
+      expect do
+        @table_game.execute(commands)
+      end.to output('2,2,EAST').to_stdout
+    end
+
+    it "ignore firsts invalids PLACE commands" do
+      commands = <<~HEREDOC
+        PLACE 32,10,NORTH
+        PLACE 2,10,NORTH
+        PLACE 4,4,NORTH
+        MO3VE
+        PLACE 2,2,NORTH
+        PLACE 2,10,NORTH
+        RIGHtT
+        RE3PORT
+        PLACE 8,2,NORTH
+        REPORT
+      HEREDOC
+
+      expect do
+        @table_game.execute(commands)
+      end.to output('2,2,NORTH').to_stdout
     end
   end
 end
