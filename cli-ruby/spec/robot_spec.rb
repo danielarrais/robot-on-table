@@ -1,15 +1,15 @@
 require_relative '../lib/robot'
 
 describe Robot do
-  describe "#move" do
-    before do
-      @robot = Robot.new(
-        initial_position: [2, 2],
-        max_area_to_move: [3, 3],
-        facing: :north
-      )
-    end
+  before do
+    @robot = Robot.new(
+      initial_position: [2, 2],
+      max_area_to_move: [3, 3],
+      facing: :north
+    )
+  end
 
+  describe "Move robot" do
     it "move for north invalid position" do
       @robot.move
       @robot.move
@@ -70,7 +70,9 @@ describe Robot do
         @robot.current_position_report
       end.to output('1,2,EAST').to_stdout
     end
+  end
 
+  describe "Rotate robot" do
     it "rotate 360 for right" do
       @robot.right
       @robot.right
