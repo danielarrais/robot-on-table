@@ -77,5 +77,21 @@ describe TableGame do
         @table_game.execute(commands)
       end.to output('2,2,EAST').to_stdout
     end
+
+    it "ignore multiples invalids PLACE commands" do
+      commands = <<~HEREDOC
+        PLACE 4,4,NORTH
+        MOVE
+        PLACE 2,2,NORTH
+        PLACE 2,2,NORTH3
+        RIGHT
+        REPORT
+        PLACE 2,2,NORTH3
+      HEREDOC
+
+      expect do
+        @table_game.execute(commands)
+      end.to output('2,2,EAST').to_stdout
+    end
   end
 end
