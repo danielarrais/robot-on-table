@@ -1,4 +1,4 @@
-#!/home/daniel/.asdf/shims/ruby
+#!ruby
 
 require_relative "lib/table_game"
 
