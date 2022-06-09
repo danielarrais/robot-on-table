@@ -63,5 +63,19 @@ describe TableGame do
         @table_game.execute(commands)
       end.to output('4,3,EAST').to_stdout
     end
+
+    it "run multiples PLACE commands" do
+      commands = <<~HEREDOC
+        PLACE 4,4,NORTH
+        MOVE
+        PLACE 2,2,NORTH
+        RIGHT
+        REPORT
+      HEREDOC
+
+      expect do
+        @table_game.execute(commands)
+      end.to output('2,2,EAST').to_stdout
+    end
   end
 end
