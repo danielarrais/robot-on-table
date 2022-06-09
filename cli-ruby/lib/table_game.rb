@@ -10,18 +10,19 @@ class TableGame
 
   def execute(commands)
     runnable_commands = InputCommandsProcessor.new(commands).process
-
     return if runnable_commands.nil? || runnable_commands.empty?
 
     place_command = runnable_commands.shift
-
     return unless valid_place_command?(place_command)
-
     place_robot(place_command[:params])
 
     runnable_commands.each do |command|
       command_name = command[:name].upcase
-      @robot_controls[command_name].call
+      if command_name == :PLACE && valid_place_command?(command)
+        place_robot(command[:params])
+      else
+        @robot_controls[command_name].call
+      end
     end
   end
 

@@ -11,7 +11,7 @@ class InputCommandsProcessor
     return [] if @input.nil? || @input.empty?
 
     commands = @input.split(/(\n)/)
-    valid_commands = validate_commands(commands)
+    valid_commands = filter_valid_commands(commands)
     executable_commands = filter_commands_after_place(valid_commands)
 
     build_commands(executable_commands)
@@ -19,7 +19,7 @@ class InputCommandsProcessor
 
   private
 
-  def validate_commands(commands)
+  def filter_valid_commands(commands)
     return [] if (commands.nil? || commands.empty?)
 
     commands.select { |command| valid_command?(command) }
@@ -47,17 +47,15 @@ class InputCommandsProcessor
     end
   end
 
-  def build_commands(valid_commands_str)
-    return [] if valid_commands_str.nil? || valid_commands_str.empty?
-
+  def build_commands(valid_commands)
+    return [] if valid_commands.nil? || valid_commands.empty?
     commands = []
-
-    place_command_str = valid_commands_str.shift
-    place_command = build_place_command(place_command_str)
-    commands.push(place_command)
-
-    valid_commands_str.each do |command_str|
-      command = build_simple_command(command_str)
+    valid_commands.each do |command_str|
+      if command_str.upcase.include?(PLACE_COMMAND_NAME)
+        command = build_place_command(command_str)
+      else
+        command = build_simple_command(command_str)
+      end
       commands.push(command)
     end
 
