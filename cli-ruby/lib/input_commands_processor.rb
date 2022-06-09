@@ -1,6 +1,6 @@
 PLACE_COMMAND_NAME = 'PLACE'
-PLACE_COMMAND_REGEX = /(\bplace\b) \d+,\d+,((\bnorth\b)|(\beast\b)|(\bsouth\b)|(\bwest\b))/
-OTHER_COMMANDS_REGEX = /(\bmove\b)|(\bleft\b)|(\bright\b)|(\breport\b)/
+PLACE_COMMAND_REGEX = /(\bPLACE\b) \d+,\d+,((\bNORTH\b)|(\bEAST\b)|(\bSOUTH\b)|(\bWEST\b))/
+OTHER_COMMANDS_REGEX = /(\bMOVE\b)|(\bLEFT\b)|(\bRIGHT\b)|(\bREPORT\b)/
 
 class InputCommandsProcessor
   def initialize(input)
@@ -10,7 +10,7 @@ class InputCommandsProcessor
   def process
     return [] if @input.nil? || @input.empty?
 
-    commands = @input.split(/(\n)/)
+    commands = @input.upcase.split(/(\n)/)
     valid_commands = filter_valid_commands(commands)
     build_commands(valid_commands)
   end
@@ -26,25 +26,25 @@ class InputCommandsProcessor
   def valid_command?(command)
     return false if command.nil? || command.empty?
 
-    if command.upcase.include?(PLACE_COMMAND_NAME)
-      command.downcase.match?(PLACE_COMMAND_REGEX)
+    if command.include?(PLACE_COMMAND_NAME)
+      command.match?(PLACE_COMMAND_REGEX)
     else
-      command.downcase.match?(OTHER_COMMANDS_REGEX)
+      command.match?(OTHER_COMMANDS_REGEX)
     end
   end
 
   def build_commands(valid_commands)
     return [] if valid_commands.nil? || valid_commands.empty?
+
     commands = []
     valid_commands.each do |command_str|
-      if command_str.upcase.include?(PLACE_COMMAND_NAME)
+      if command_str.include?(PLACE_COMMAND_NAME)
         command = build_place_command(command_str)
       else
         command = build_simple_command(command_str)
       end
       commands.push(command)
     end
-
     commands
   end
 
@@ -58,7 +58,7 @@ class InputCommandsProcessor
       params: {
         x: params[0].to_i,
         y: params[1].to_i,
-        facing: params[2].downcase.to_sym
+        facing: params[2].to_sym
       }
     }
   end

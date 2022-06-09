@@ -13,7 +13,7 @@ describe InputCommandsProcessor do
       @commands = InputCommandsProcessor.new(commands).process
 
       expect(@commands.length).to equal(4)
-      expect(@commands[0]).to include({ name: :PLACE, params: { x: 4, y: 4, facing: 'NORTH'.downcase.to_sym } })
+      expect(@commands[0]).to include({ name: :PLACE, params: { x: 4, y: 4, facing: 'NORTH'.to_sym } })
       expect(@commands[1]).to include({ name: :MOVE })
       expect(@commands[2]).to include({ name: :RIGHT })
       expect(@commands[3]).to include({ name: :REPORT })

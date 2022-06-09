@@ -1,15 +1,15 @@
 CLOCKWISE_FLOW = {
-  north: :east,
-  east: :south,
-  south: :west,
-  west: :north
+  NORTH: :EAST,
+  EAST: :SOUTH,
+  SOUTH: :WEST,
+  WEST: :NORTH
 }
 
 ANTICLOCKWISE_FLOW = {
-  north: :west,
-  east: :north,
-  south: :east,
-  west: :south
+  NORTH: :WEST,
+  EAST: :NORTH,
+  SOUTH: :EAST,
+  WEST: :SOUTH
 }
 
 class Robot
@@ -32,10 +32,10 @@ class Robot
   end
 
   def move
-    move_to_north if (@facing == :north)
-    move_to_east if (@facing == :east)
-    move_to_south if (@facing == :south)
-    move_to_west if (@facing == :west)
+    move_to_north if (@facing == :NORTH)
+    move_to_east if (@facing == :EAST)
+    move_to_south if (@facing == :SOUTH)
+    move_to_west if (@facing == :WEST)
   end
 
   def move_to_north
@@ -77,7 +77,7 @@ class Robot
   end
 
   def current_position_report
-    print "#{@current_position[0]},#{@current_position[1]},#{@facing.upcase}"
+    print "#{@current_position[0]},#{@current_position[1]},#{@facing}"
   end
 
   private :move_to_north, :move_to_east, :move_to_south, :move_to_west

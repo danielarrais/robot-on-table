@@ -5,7 +5,7 @@ describe Robot do
     @robot = Robot.new(
       initial_position: [2, 2],
       max_area_to_move: [3, 3],
-      facing: :north
+      facing: :NORTH
     )
   end
 
