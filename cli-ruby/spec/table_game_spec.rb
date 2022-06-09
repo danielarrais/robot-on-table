@@ -1,3 +1,4 @@
+require "helper"
 require_relative '../lib/table_game'
 
 describe TableGame do

@@ -1,3 +1,4 @@
+require "helper"
 require_relative '../lib/input_commands_processor'
 
 describe InputCommandsProcessor do
