@@ -12,9 +12,7 @@ class InputCommandsProcessor
 
     commands = @input.split(/(\n)/)
     valid_commands = filter_valid_commands(commands)
-    executable_commands = filter_commands_after_place(valid_commands)
-
-    build_commands(executable_commands)
+    build_commands(valid_commands)
   end
 
   private
@@ -23,18 +21,6 @@ class InputCommandsProcessor
     return [] if (commands.nil? || commands.empty?)
 
     commands.select { |command| valid_command?(command) }
-  end
-
-  def filter_commands_after_place(commands)
-    commands_filtered = []
-
-    commands.each do |command|
-      if !commands_filtered.empty? || command.upcase.include?(PLACE_COMMAND_NAME)
-        commands_filtered.push(command)
-      end
-    end
-
-    commands_filtered
   end
 
   def valid_command?(command)
