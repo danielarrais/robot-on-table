@@ -1,5 +1,5 @@
 PLACE_COMMAND_NAME = 'PLACE'
-PLACE_COMMAND_REGEX = /(\bplace\b) \d+,\d+,((\bnorth\b)|(\beast\b)|(\bsouth\b)|(\bwest\b))+/
+PLACE_COMMAND_REGEX = /(\bplace\b) \d+,\d+,((\bnorth\b)|(\beast\b)|(\bsouth\b)|(\bwest\b))/
 OTHER_COMMANDS_REGEX = /(\bmove\b)|(\bleft\b)|(\bright\b)|(\breport\b)/
 
 class InputCommandsProcessor
@@ -12,8 +12,9 @@ class InputCommandsProcessor
 
     commands = @input.split(/(\n)/)
     valid_commands = validate_commands(commands)
+    executable_commands = filter_commands_after_place(valid_commands)
 
-    build_commands(valid_commands)
+    build_commands(executable_commands)
   end
 
   private
@@ -21,15 +22,14 @@ class InputCommandsProcessor
   def validate_commands(commands)
     return [] if (commands.nil? || commands.empty?)
 
-    executable_commands = filter_commands_after_place(commands)
-    executable_commands.select { |command| valid_command?(command) }
+    commands.select { |command| valid_command?(command) }
   end
 
   def filter_commands_after_place(commands)
     commands_filtered = []
 
     commands.each do |command|
-      if !commands.empty? || command.upcase.include?(PLACE_COMMAND_NAME)
+      if !commands_filtered.empty? || command.upcase.include?(PLACE_COMMAND_NAME)
         commands_filtered.push(command)
       end
     end
@@ -48,6 +48,8 @@ class InputCommandsProcessor
   end
 
   def build_commands(valid_commands_str)
+    return [] if valid_commands_str.nil? || valid_commands_str.empty?
+
     commands = []
 
     place_command_str = valid_commands_str.shift
