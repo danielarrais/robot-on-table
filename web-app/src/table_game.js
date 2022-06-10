@@ -28,9 +28,9 @@ class _TableGame {
 
         commands.forEach(command => {
             const isPlaceCommand = command.name === 'PLACE';
-            const isValidPlaceCommand = isPlaceCommand && this.validPlaceCommand(command);
+            const isValidPlaceCommand = isPlaceCommand && this.isValidPlaceCommand(command);
 
-            const isValidMovimentCommand = !isPlaceCommand && this.validMovimentCommand(command);
+            const isValidMovimentCommand = !isPlaceCommand && this.isValidMovimentCommand(command);
             const canInsertMovimentCommand = !(validCommands.length === 0) && isValidMovimentCommand
 
             if (isValidPlaceCommand || canInsertMovimentCommand) {
@@ -41,13 +41,13 @@ class _TableGame {
         return validCommands;
     }
 
-    validPlaceCommand(command) {
+    isValidPlaceCommand(command) {
         const params = command.params
         const validParamsPosition = params.x < this.tableSize[0] && params.y < this.tableSize[1]
         return validParamsPosition;
     }
 
-    validMovimentCommand(command) {
+    isValidMovimentCommand(command) {
         return this.robotControls[command.name] !== undefined;
     }
 
