@@ -39,6 +39,14 @@ describe TableGame do
       end.to_not output.to_stdout
     end
 
+    it "do not fail when commands are not given" do
+      commands = nil
+
+      expect do
+        @table_game.execute(commands)
+      end.to_not output.to_stdout
+    end
+
     it "ignore commands when facing of PLACE command is invalid" do
       commands = <<~HEREDOC
         PLACE 4,4,NORTH2

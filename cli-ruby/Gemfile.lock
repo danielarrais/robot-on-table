@@ -24,7 +24,7 @@ GEM
     simplecov_json_formatter (0.1.4)
 
 PLATFORMS
-  x64-unknown
+  x64-mingw-ucrt
   x64-unknown
   x86_64-linux
 
