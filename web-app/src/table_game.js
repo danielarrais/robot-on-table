@@ -5,7 +5,7 @@ class _TableGame {
     constructor(tableSize = [5, 5], onChangeTable) {
         this.tableSize = tableSize;
         this.robot = {};
-        this.onChangeTable = onChangeTable;
+        this.onChangeTable = onChangeTable || this.defaultOnChangeTable;
 
         this.mapRobotControls();
     }
@@ -76,6 +76,8 @@ class _TableGame {
         this.robot = Robot([params.x, params.y], this.tableSize, params.facing);
         this.onChangeTable(this.robot.getCurrentPosition());
     }
+
+    defaultOnChangeTable(position) {}
 }
 
 const TableGame = (tableSize, onChangeTable) => {
