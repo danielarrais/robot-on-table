@@ -38,6 +38,12 @@ class Robot
     move_to_west if (@facing == :WEST)
   end
 
+  def current_position_report
+    print "#{@current_position[0]},#{@current_position[1]},#{@facing}"
+  end
+
+  private
+
   def move_to_north
     current_y_position = @current_position[1]
     new_y_position = current_y_position - 1
@@ -75,10 +81,4 @@ class Robot
       @current_position[0] = new_x_position
     end
   end
-
-  def current_position_report
-    print "#{@current_position[0]},#{@current_position[1]},#{@facing}"
-  end
-
-  private :move_to_north, :move_to_east, :move_to_south, :move_to_west
 end

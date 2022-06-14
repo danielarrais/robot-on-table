@@ -43,5 +43,19 @@ describe InputCommandsProcessor do
 
       expect(@commands.length).to equal(0)
     end
+
+
+    it "process commands when having different case" do
+      commands = <<~HEREDOC
+        PLaCE 4,4,NoRTH
+        MoVE
+        RIGhT
+        REPoRT
+      HEREDOC
+
+      @commands = InputCommandsProcessor.new(commands).process
+
+      expect(@commands.length).to equal(4)
+    end
   end
 end
