@@ -1,12 +1,4 @@
-const PLACE_COMMAND_REGEX = /(\bPLACE\b) \d+,\d+,((\bNORTH\b)|(\bEAST\b)|(\bSOUTH\b)|(\bWEST\b))/
-const OTHER_COMMANDS_REGEX = /(\bMOVE\b)|(\bLEFT\b)|(\bRIGHT\b)|(\bREPORT\b)/
-const commandsRegexValidation = {
-    'PLACE': PLACE_COMMAND_REGEX,
-    'MOVE': OTHER_COMMANDS_REGEX,
-    'LEFT': OTHER_COMMANDS_REGEX,
-    'RIGHT': OTHER_COMMANDS_REGEX,
-    'REPORT': OTHER_COMMANDS_REGEX,
-}
+import {COMMANDS, COMMANDS_REGEX_VALIDATION} from "./constants.js";
 
 class _InputCommandsProcessor {
     constructor(commands) {
@@ -29,7 +21,7 @@ class _InputCommandsProcessor {
         if (!commands) return [];
         const buildedCommands = []
         commands.forEach(command => {
-            const isPlaceCommand = command.includes('PLACE');
+            const isPlaceCommand = command.includes(COMMANDS.place);
             const buildedCommand = isPlaceCommand ? this.buildPlaceCommand(command) : this.buildMovimentCommand(command)
             buildedCommands.push(buildedCommand)
         })
@@ -37,7 +29,7 @@ class _InputCommandsProcessor {
     }
 
     isValidCommand(command) {
-        const regexValidation = commandsRegexValidation[command] || commandsRegexValidation.PLACE
+        const regexValidation = COMMANDS_REGEX_VALIDATION[command] || COMMANDS_REGEX_VALIDATION.PLACE
         return regexValidation.test(command);
     }
 

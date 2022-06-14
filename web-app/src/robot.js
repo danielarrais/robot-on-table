@@ -1,15 +1,17 @@
+import {FACINGS} from "./constants.js";
+
 const clockwiseFlow = {
-    'NORTH': 'EAST',
-    'EAST': 'SOUTH',
-    'SOUTH': 'WEST',
-    'WEST': 'NORTH'
+    [FACINGS.north]: FACINGS.east,
+    [FACINGS.east]: FACINGS.south,
+    [FACINGS.south]: FACINGS.west,
+    [FACINGS.west]: FACINGS.north,
 }
 
 const anticlockwiseFlow = {
-    'NORTH': 'WEST',
-    'EAST': 'NORTH',
-    'SOUTH': 'EAST',
-    'WEST': 'SOUTH'
+    [FACINGS.north]: FACINGS.west,
+    [FACINGS.east]: FACINGS.north,
+    [FACINGS.south]: FACINGS.east,
+    [FACINGS.west]: FACINGS.south,
 }
 
 class _Robot {
@@ -29,12 +31,11 @@ class _Robot {
 
     move() {
         const mapControls = {
-            'NORTH': () => this.moveToNorth(),
-            'EAST': () => this.moveToEast(),
-            'SOUTH': () => this.moveToSouth(),
-            'WEST': () => this.moveToWest(),
+            [FACINGS.north]: () => this.moveToNorth(),
+            [FACINGS.east]: () => this.moveToEast(),
+            [FACINGS.south]: () => this.moveToSouth(),
+            [FACINGS.west]: () => this.moveToWest(),
         };
-        debugger;
         mapControls[this.facing]();
     }
 
@@ -70,7 +71,7 @@ class _Robot {
     moveToWest() {
         const currentXPosition = this.currentPosition[0];
         const newXPosition = currentXPosition - 1;
-        debugger
+
         if (newXPosition >= 0) {
             this.currentPosition[0] = newXPosition;
         }

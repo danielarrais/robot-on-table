@@ -1,4 +1,6 @@
 import TableGame from "./src/table_game.js";
+import InputCommandsProcessor from "./src/input_commands_processor.js";
+
 
 const tableSize = [5, 5];
 
@@ -35,14 +37,15 @@ const runQueueFunctions = (commands) => {
 const runGame = () => {
     const commandsQueue = [];
     const commands = $('#commandInput').val();
+    const processedCommands = InputCommandsProcessor(commands).process();
 
     mountTable();
     TableGame(tableSize, (position) => {
         commandsQueue.push(() => {
             mountTable(position);
-            console.log(`${position.x},${position.y},${position.facing}`)
+            console.log(`${position.x},${position.y},${position.facing}`);
         });
-    }).execute(commands);
+    }).execute(processedCommands);
 
     runQueueFunctions(commandsQueue);
 };
