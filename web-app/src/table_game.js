@@ -1,40 +1,41 @@
-import InputCommandsProcessor from "./input_commands_processor.js";
 import Robot from "./robot.js";
+import {COMMANDS} from "./constants.js";
 
 class _TableGame {
     constructor(tableSize = [5, 5], onChangeTable) {
         this.tableSize = tableSize;
-        this.robot = {}
-        this.onChangeTable = onChangeTable;
+        this.robot = {};
+        this.onChangeTable = onChangeTable || this.defaultOnChangeTable;
 
         this.mapRobotControls();
     }
 
     execute(commands) {
-        const processedCommands = InputCommandsProcessor(commands).process();
-        const validsCommands = this.filterValidCommands(processedCommands);
+        const validsCommands = this.filterValidCommands(commands);
+        this.runCommands(validsCommands);
+    }
 
-        validsCommands.forEach(command => {
-            if (command.name === 'PLACE') {
-                this.placeRobot(command.params)
+    runCommands(commands) {
+        commands?.forEach(command => {
+            if (command.name === COMMANDS.place) {
+                this.placeRobot(command.params);
             } else {
                 this.robotControls[command.name]();
             }
-        })
+        });
     }
 
     filterValidCommands(commands) {
-        const validCommands = []
+        const validCommands = [];
 
-        commands.forEach(command => {
-            const isPlaceCommand = command.name === 'PLACE';
+        commands?.forEach(command => {
+            const hasPlaceCommand = !(validCommands.length === 0);
+            const isPlaceCommand = command.name === COMMANDS.place;
             const isValidPlaceCommand = isPlaceCommand && this.isValidPlaceCommand(command);
+            const isValidMovimentCommand = !isPlaceCommand && hasPlaceCommand && this.isValidMovimentCommand(command);
 
-            const isValidMovimentCommand = !isPlaceCommand && this.isValidMovimentCommand(command);
-            const canInsertMovimentCommand = !(validCommands.length === 0) && isValidMovimentCommand
-
-            if (isValidPlaceCommand || canInsertMovimentCommand) {
-                validCommands.push(command)
+            if (isValidPlaceCommand || isValidMovimentCommand) {
+                validCommands.push(command);
             }
         })
 
@@ -42,9 +43,11 @@ class _TableGame {
     }
 
     isValidPlaceCommand(command) {
-        const params = command.params
-        const validParamsPosition = params.x < this.tableSize[0] && params.y < this.tableSize[1]
-        return validParamsPosition;
+        const params = command.params;
+        const isValidXCoordinate = params.x >= 0 && params.x < this.tableSize[0];
+        const isValidYCoordinate = params.y >= 0 && params.y < this.tableSize[0];
+
+        return isValidXCoordinate && isValidYCoordinate;
     }
 
     isValidMovimentCommand(command) {
@@ -53,19 +56,19 @@ class _TableGame {
 
     mapRobotControls() {
         this.robotControls = {
-            'MOVE': () => {
+            [COMMANDS.move]: () => {
                 this.robot.move();
                 this.onChangeTable(this.robot.getCurrentPosition());
             },
-            'LEFT': () => {
+            [COMMANDS.left]: () => {
                 this.robot.left();
                 this.onChangeTable(this.robot.getCurrentPosition());
             },
-            'RIGHT': () => {
+            [COMMANDS.right]: () => {
                 this.robot.right();
                 this.onChangeTable(this.robot.getCurrentPosition());
             },
-            'REPORT': () => this.robot.currentPositionReport(),
+            [COMMANDS.report]: () => this.robot.currentPositionReport(),
         };
     }
 
@@ -73,6 +76,8 @@ class _TableGame {
         this.robot = Robot([params.x, params.y], this.tableSize, params.facing);
         this.onChangeTable(this.robot.getCurrentPosition());
     }
+
+    defaultOnChangeTable(position) {}
 }
 
 const TableGame = (tableSize, onChangeTable) => {

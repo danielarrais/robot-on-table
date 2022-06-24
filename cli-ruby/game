@@ -3,4 +3,5 @@
 require_relative "lib/table_game"
 
 commands = ARGV[0]
-TableGame.new.execute(commands)
+processed_commands = InputCommandsProcessor.new(commands).process
+TableGame.new([5,5]).execute(processed_commands)
