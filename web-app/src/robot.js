@@ -31,10 +31,10 @@ class _Robot {
 
     move() {
         const mapControls = {
-            [FACINGS.north]: () => this.moveToNorth(),
-            [FACINGS.east]: () => this.moveToEast(),
-            [FACINGS.south]: () => this.moveToSouth(),
-            [FACINGS.west]: () => this.moveToWest(),
+            [FACINGS.north]: this.moveToNorth,
+            [FACINGS.east]: this.moveToEast,
+            [FACINGS.south]: this.moveToSouth,
+            [FACINGS.west]: this.moveToWest,
         };
         mapControls[this.facing]();
     }
@@ -94,11 +94,11 @@ const Robot = (currentPosition, maxAreaToMove, facing) => {
     const robot = new _Robot(currentPosition, maxAreaToMove, facing);
 
     return {
-        left: () => robot.left(),
-        right: () => robot.right(),
-        move: () => robot.move(),
-        currentPositionReport: () => robot.currentPositionReport(),
-        getCurrentPosition: () => robot.getCurrentPosition(),
+        left: robot.left,
+        right: robot.right,
+        move: robot.move,
+        currentPositionReport: robot.currentPositionReport,
+        getCurrentPosition: robot.getCurrentPosition,
     }
 }
 
